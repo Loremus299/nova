@@ -37,11 +37,8 @@ export const resumeSchema = z.object({
 	summary: z.string(),
 
 	skills: z.record(z.string(), z.array(z.string())),
-
 	projects: z.array(projectSchema),
-
 	experience: z.array(experienceSchema),
-
 	education: z.array(educationSchema),
 
 	metadata: z.object({
