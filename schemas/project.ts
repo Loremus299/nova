@@ -12,6 +12,19 @@ const projectSchema = z.object({
 	urls: z.record(z.string(), z.url()),
 	tech: z.array(z.string()),
 	highlights: z.array(z.string()),
+	features: z.array(
+		z.object({
+			name: z.string(),
+			description: z.string(),
+			implementation: z.string(),
+			tech: z.array(z.string()),
+		}),
+	),
+	status: z.enum(["in development", "completed", "maintained", "archived"]),
+	presentation: z.object({
+		poster: z.url(),
+		logo: z.url(),
+	}),
 });
 
 export default projectSchema;
