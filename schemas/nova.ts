@@ -20,7 +20,7 @@ const projectSchema = z.object({
 			tech: z.array(z.string()),
 		}),
 	),
-	status: z.enum(["in development", "completed", "maintained", "archived"]),
+	status: z.enum(["in-development", "completed", "maintained", "archived"]),
 	presentation: z.object({
 		poster: z.url(),
 		logo: z.url(),
