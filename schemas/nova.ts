@@ -6,8 +6,8 @@ const projectSchema = z.object({
 	name: z.string(),
 	tagline: z.string(),
 	description: z.object({
-		technical: z.string(),
 		project: z.string(),
+		technical: z.string(),
 	}),
 	urls: z.record(z.string(), z.url()),
 	tech: z.array(z.string()),
