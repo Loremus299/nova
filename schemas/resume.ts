@@ -1,13 +1,8 @@
 import z from "zod";
+import userSchema from "./user";
 
 const resumeSchema = z.object({
-	user: z.object({
-		name: z.string(),
-		email: z.email(),
-		github: z.url(),
-		phone: z.string().optional(),
-		urls: z.record(z.string(), z.url()),
-	}),
+	user: userSchema,
 	role: z.string(),
 	summary: z.string(),
 
