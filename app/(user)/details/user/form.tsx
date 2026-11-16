@@ -15,8 +15,8 @@ export default function UserDetailsForm() {
 		defaultValues: {
 			name: "",
 			email: "",
-			location: "",
 			phone: "",
+			location: "",
 			urls: {},
 		},
 	});
