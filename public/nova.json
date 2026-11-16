@@ -1,0 +1,49 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"type": "object",
+	"properties": {
+		"name": {
+			"type": "string"
+		},
+		"tagline": {
+			"type": "string"
+		},
+		"description": {
+			"type": "object",
+			"properties": {
+				"technical": {
+					"type": "string"
+				},
+				"project": {
+					"type": "string"
+				}
+			},
+			"required": ["technical", "project"],
+			"additionalProperties": false
+		},
+		"urls": {
+			"type": "object",
+			"propertyNames": {
+				"type": "string"
+			},
+			"additionalProperties": {
+				"type": "string",
+				"format": "uri"
+			}
+		},
+		"tech": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			}
+		},
+		"highlights": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			}
+		}
+	},
+	"required": ["name", "tagline", "description", "urls", "tech", "highlights"],
+	"additionalProperties": true
+}
