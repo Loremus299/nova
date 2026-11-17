@@ -8,6 +8,7 @@ import { auth } from "@/lib/auth";
 import db from "@/lib/db";
 import { DrizzleQueryError, eq } from "drizzle-orm";
 import { userDetails, userDetailUrls } from "@/lib/db/schema";
+import { headers } from "next/headers";
 
 export default async function addUserDetails(
 	values: z.infer<typeof userSchema>,
@@ -19,7 +20,10 @@ export default async function addUserDetails(
 		//-- USER SESSION
 		log.trace("op", "user session");
 		const session = (
-			await Result.tryCatch(async () => await auth.api.getSession(), Error)
+			await Result.tryCatch(
+				async () => await auth.api.getSession({ headers: await headers() }),
+				Error,
+			)
 		).onError((e) => log.error("user session - error", e));
 
 		if (!session.outcome.success)
@@ -29,7 +33,7 @@ export default async function addUserDetails(
 			return Result.error<null, string>("User unauthenticated").type;
 		}
 		const sessionData = session.outcome.data;
-		log.debug("user session - debug", sessionData);
+		log.debug("user session - debug", sessionData.user);
 		log.trace("user session - success", null);
 		//--
 
@@ -39,13 +43,24 @@ export default async function addUserDetails(
 			await Result.tryCatch(
 				async () =>
 					db.transaction(async (tx) => {
-						await tx.insert(userDetails).values({
-							user: sessionData.user.id,
-							name: values.name,
-							email: values.email,
-							phone: values.phone,
-							location: values.location,
-						});
+						await tx
+							.insert(userDetails)
+							.values({
+								user: sessionData.user.id,
+								name: values.name,
+								email: values.email,
+								phone: values.phone,
+								location: values.location,
+							})
+							.onConflictDoUpdate({
+								target: userDetails.user,
+								set: {
+									name: values.name,
+									email: values.email,
+									phone: values.phone,
+									location: values.location,
+								},
+							});
 
 						await tx
 							.delete(userDetailUrls)
@@ -63,7 +78,7 @@ export default async function addUserDetails(
 		).onError((e) => log.error("db query - error", e));
 
 		if (!query.outcome.success)
-			return Result.error<null, string>("Failed to add user details").type;
+			return Result.error<null, string>("Failed to add resume details").type;
 		log.trace("db query - finished", null);
 		//--
 

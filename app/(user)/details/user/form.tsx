@@ -8,6 +8,9 @@ import { Input } from "@/components/ui/input";
 import KeyValueInput from "@/components/kvInput";
 import LoadingButton from "@/components/badcn/loadingButton";
 import { Check } from "lucide-react";
+import z from "zod";
+import addUserDetails from "@/actions/details/user-details";
+import { toast } from "@/components/ui/toast";
 
 export default function UserDetailsForm() {
 	const form = useForm({
@@ -21,8 +24,24 @@ export default function UserDetailsForm() {
 		},
 	});
 
+	const onSubmit = async (values: z.infer<typeof userSchema>) => {
+		toast.promise(
+			addUserDetails(values).then((res) => {
+				if (!res.success) throw new Error(res.error);
+			}),
+			{
+				loading: "Adding resume details...",
+				error: (e: Error) => e.message,
+				success: "Successfully added resume details",
+			},
+		);
+	};
+
 	return (
-		<form className="grid gap-4 w-xl portrait:w-full">
+		<form
+			className="grid gap-4 w-xl portrait:w-full"
+			onSubmit={form.handleSubmit(onSubmit)}
+		>
 			<FormController
 				form={form}
 				label="Name"
@@ -98,8 +117,8 @@ export default function UserDetailsForm() {
 					/>
 				)}
 			/>
-			<LoadingButton>
-				<Check /> Add these details.s
+			<LoadingButton loading={form.formState.isSubmitting} type="submit">
+				<Check /> Add these details
 			</LoadingButton>
 		</form>
 	);
