@@ -103,6 +103,7 @@ export default function UserDetailsForm() {
 				name="urls"
 				render={({ field }) => (
 					<KeyValueInput<string>
+						placeholder="URL Name (e.g, LinkedIn, Portfolio, Github)"
 						value={field.value ?? {}}
 						onChange={field.onChange}
 						createValue={() => ""}

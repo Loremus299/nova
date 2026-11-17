@@ -11,6 +11,7 @@ type KeyValueInputProps<T> = {
 	onChange: (value: Record<string, T>) => void;
 	createValue: () => T;
 	renderValue: (props: { value: T; onChange: (value: T) => void }) => ReactNode;
+	placeholder?: string;
 	className?: string;
 };
 
@@ -20,6 +21,7 @@ export default function KeyValueInput<T>({
 	createValue,
 	renderValue,
 	className,
+	placeholder = "Key",
 }: KeyValueInputProps<T>) {
 	const [key, setKey] = useState("");
 
@@ -76,7 +78,7 @@ export default function KeyValueInput<T>({
 				<Input
 					value={key}
 					onChange={(e) => setKey(e.target.value)}
-					placeholder="Key (e.g. LinkedIn)"
+					placeholder={placeholder}
 				/>
 
 				<Button
