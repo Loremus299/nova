@@ -2,7 +2,7 @@
   "type": "base",
   "version": "9",
   "dialect": "postgres",
-  "id": "033c02aa-e1cb-44b4-a674-d42d248e69ef",
+  "id": "e8e9e7a3-403f-4da2-b779-f3008d8fd789",
   "prevIds": [
     "00000000-0000-0000-0000-000000000000"
   ],
@@ -80,6 +80,46 @@
         "n|rel|public.verification",
         "n|type|public.verification",
         "n|rel|public.verification_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "resume_user_details_urls"
+      ],
+      "writes": [
+        "s|tbl|public.resume_user_details_urls",
+        "n|tbl|public.resume_user_details_urls",
+        "e|tbl|public.resume_user_details_urls",
+        "n|rel|public.resume_user_details_urls",
+        "n|type|public.resume_user_details_urls",
+        "n|rel|public.resume_user_details_urls_pkey",
+        "n|rel|public.resume_user_details_urls_user_key_unique"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "resume_user_details"
+      ],
+      "writes": [
+        "s|tbl|public.resume_user_details",
+        "n|tbl|public.resume_user_details",
+        "e|tbl|public.resume_user_details",
+        "n|rel|public.resume_user_details",
+        "n|type|public.resume_user_details",
+        "n|rel|public.resume_user_details_pkey",
+        "n|rel|public.resume_user_details_user_key"
       ],
       "reads": [
         "n|sch|public"
@@ -190,6 +230,52 @@
         "n|col|public.user.id",
         "e|uniqueness|public.user.id"
       ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "resume_user_details_urls"
+      ],
+      "writes": [
+        "s|fk|public.resume_user_details_urls.resume_user_details_urls_user_user_id_fkey",
+        "n|fk|public.resume_user_details_urls.resume_user_details_urls_user_user_id_fkey",
+        "e|fk|public.resume_user_details_urls.resume_user_details_urls_user_user_id_fkey",
+        "n|con|public.resume_user_details_urls.resume_user_details_urls_user_user_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.resume_user_details_urls",
+        "n|sch|public",
+        "n|tbl|public.user",
+        "n|sch|public",
+        "n|col|public.resume_user_details_urls.user",
+        "n|col|public.user.id",
+        "e|uniqueness|public.user.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "resume_user_details"
+      ],
+      "writes": [
+        "s|fk|public.resume_user_details.resume_user_details_user_user_id_fkey",
+        "n|fk|public.resume_user_details.resume_user_details_user_user_id_fkey",
+        "e|fk|public.resume_user_details.resume_user_details_user_user_id_fkey",
+        "n|con|public.resume_user_details.resume_user_details_user_user_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.resume_user_details",
+        "n|sch|public",
+        "n|tbl|public.user",
+        "n|sch|public",
+        "n|col|public.resume_user_details.user",
+        "n|col|public.user.id",
+        "e|uniqueness|public.user.id"
+      ]
     }
   ],
   "ddl": [
@@ -214,6 +300,18 @@
     {
       "schema": "public",
       "name": "verification",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "resume_user_details_urls",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "resume_user_details",
       "isRlsEnabled": false,
       "entityType": "tables"
     },
@@ -661,6 +759,188 @@
     },
     {
       "schema": "public",
+      "table": "resume_user_details_urls",
+      "name": "id",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details_urls",
+      "name": "user",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details_urls",
+      "name": "key",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details_urls",
+      "name": "value",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details_urls",
+      "name": "created_at",
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details_urls",
+      "name": "updated_at",
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details",
+      "name": "id",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details",
+      "name": "user",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details",
+      "name": "name",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details",
+      "name": "email",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details",
+      "name": "phone",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details",
+      "name": "location",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details",
+      "name": "created_at",
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details",
+      "name": "updated_at",
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
       "table": "account",
       "name": "account_userId_idx",
       "nameExplicit": true,
@@ -758,6 +1038,40 @@
     },
     {
       "schema": "public",
+      "table": "resume_user_details_urls",
+      "name": "resume_user_details_urls_user_user_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "user"
+      ],
+      "schemaTo": "public",
+      "tableTo": "user",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details",
+      "name": "resume_user_details_user_user_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "user"
+      ],
+      "schemaTo": "public",
+      "tableTo": "user",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
       "table": "account",
       "name": "account_pkey",
       "columns": [
@@ -798,6 +1112,38 @@
     },
     {
       "schema": "public",
+      "table": "resume_user_details_urls",
+      "name": "resume_user_details_urls_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details",
+      "name": "resume_user_details_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details_urls",
+      "name": "resume_user_details_urls_user_key_unique",
+      "nameExplicit": false,
+      "columns": [
+        "user",
+        "key"
+      ],
+      "nullsNotDistinct": false,
+      "entityType": "uniques"
+    },
+    {
+      "schema": "public",
       "table": "session",
       "name": "session_token_key",
       "nameExplicit": false,
@@ -814,6 +1160,17 @@
       "nameExplicit": false,
       "columns": [
         "email"
+      ],
+      "nullsNotDistinct": false,
+      "entityType": "uniques"
+    },
+    {
+      "schema": "public",
+      "table": "resume_user_details",
+      "name": "resume_user_details_user_key",
+      "nameExplicit": false,
+      "columns": [
+        "user"
       ],
       "nullsNotDistinct": false,
       "entityType": "uniques"

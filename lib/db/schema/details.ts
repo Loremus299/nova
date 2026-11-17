@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, unique } from "drizzle-orm/pg-core";
 import { user } from "./auth";
 
 export const userDetails = pgTable("resume_user_details", {
@@ -6,8 +6,9 @@ export const userDetails = pgTable("resume_user_details", {
 		.primaryKey()
 		.$defaultFn(() => globalThis.crypto.randomUUID()),
 	user: text("user")
-		.references(() => user.id)
-		.notNull(),
+		.references(() => user.id, { onDelete: "cascade" })
+		.notNull()
+		.unique(),
 
 	name: text("name").notNull(),
 	email: text("email").notNull(),
@@ -21,20 +22,24 @@ export const userDetails = pgTable("resume_user_details", {
 		.notNull(),
 });
 
-export const userDetailUrls = pgTable("resume_user_details_urls", {
-	id: text("id")
-		.primaryKey()
-		.$defaultFn(() => globalThis.crypto.randomUUID()),
-	user: text("user")
-		.references(() => user.id)
-		.notNull(),
+export const userDetailUrls = pgTable(
+	"resume_user_details_urls",
+	{
+		id: text("id")
+			.primaryKey()
+			.$defaultFn(() => globalThis.crypto.randomUUID()),
+		user: text("user")
+			.references(() => user.id, { onDelete: "cascade" })
+			.notNull(),
 
-	key: text("key").notNull(),
-	value: text("value").notNull(),
+		key: text("key").notNull(),
+		value: text("value").notNull(),
 
-	createdAt: timestamp("created_at").defaultNow().notNull(),
-	updatedAt: timestamp("updated_at")
-		.defaultNow()
-		.$onUpdate(() => /* @__PURE__ */ new Date())
-		.notNull(),
-});
+		createdAt: timestamp("created_at").defaultNow().notNull(),
+		updatedAt: timestamp("updated_at")
+			.defaultNow()
+			.$onUpdate(() => /* @__PURE__ */ new Date())
+			.notNull(),
+	},
+	(t) => [unique().on(t.user, t.key)],
+);
