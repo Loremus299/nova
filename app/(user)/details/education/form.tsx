@@ -2,33 +2,59 @@
 
 import FormController from "@/components/badcn/formController";
 import FieldArrayController from "@/components/fieldArrayController";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/toast";
 import { educationSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check } from "lucide-react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { addEducationDetails } from "./action";
+import LoadingButton from "@/components/badcn/loadingButton";
 
-export default function EducationDetailsForm() {
+const schema = z.object({ education: educationSchema });
+
+export default function EducationDetailsForm({
+	values,
+}: {
+	values?: z.infer<typeof educationSchema>;
+}) {
 	const form = useForm({
-		resolver: zodResolver(z.object({ education: educationSchema })),
+		resolver: zodResolver(schema),
 		defaultValues: {
-			education: [
+			education: values ?? [
 				{
 					institution: "",
-					qualification: "",
-					grade: "",
 					duration: "",
+					grade: "",
 					highlights: [{ highlight: "" }],
+					qualification: "",
 				},
 			],
 		},
 	});
 
+	const onSubmit = async (values: z.infer<typeof schema>) => {
+		const load = toast.add({ type: "loading", title: "Loading..." });
+		const act = await addEducationDetails(values.education);
+		toast.close(load);
+
+		if (act.success)
+			toast.add({ type: "success", title: "Added educational details." });
+		else
+			toast.add({
+				type: "error",
+				title: act.error.error,
+				description: act.error.requestId,
+			});
+	};
+
 	return (
-		<form className="grid gap-4 w-xl portrait:w-full">
+		<form
+			className="grid gap-4 w-xl portrait:w-full"
+			onSubmit={form.handleSubmit(onSubmit)}
+		>
 			<FieldArrayController
 				form={form}
 				name="education"
@@ -72,7 +98,7 @@ export default function EducationDetailsForm() {
 						<div className="grid grid-cols-2 gap-4">
 							<FormController
 								form={form}
-								name={`education.${i}.qualification`}
+								name={`education.${i}.duration`}
 								label="Duration"
 								render={({ field, fieldState }) => (
 									<Input
@@ -85,7 +111,7 @@ export default function EducationDetailsForm() {
 							/>
 							<FormController
 								form={form}
-								name={`education.${i}.qualification`}
+								name={`education.${i}.grade`}
 								label="Grade"
 								render={({ field, fieldState }) => (
 									<Input
@@ -122,10 +148,10 @@ export default function EducationDetailsForm() {
 					</div>
 				)}
 			/>
-			<Button>
+			<LoadingButton loading={form.formState.isSubmitting} type="submit">
 				<Check />
 				Add These Details
-			</Button>
+			</LoadingButton>
 		</form>
 	);
 }

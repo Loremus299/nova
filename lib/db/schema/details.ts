@@ -53,7 +53,7 @@ export const educationTable = pgTable("resume_education_details", {
 	qualification: text().notNull(),
 	duration: text().notNull(),
 	grade: text().notNull(),
-	highlights: text().array().notNull(),
+	highlights: text().array(),
 
 	createdAt: timestamp("created_at").defaultNow().notNull(),
 	updatedAt: timestamp("updated_at")

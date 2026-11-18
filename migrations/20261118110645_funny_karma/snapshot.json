@@ -1,0 +1,38 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "7144bd18-8d7e-4c7b-8407-48c81fc3fd03",
+  "prevIds": [
+    "db3f370b-d5d3-4be7-b51d-37bb2ee0e2d0"
+  ],
+  "footprints": [
+    {
+      "statementType": "alter_column",
+      "statementTarget": [
+        "column",
+        "public",
+        "resume_education_details",
+        "highlights"
+      ],
+      "writes": [
+        "s|colprop|public.resume_education_details.highlights.notNull"
+      ],
+      "reads": [
+        "n|tbl|public.resume_education_details",
+        "n|sch|public",
+        "n|col|public.resume_education_details.highlights"
+      ],
+      "sqlHash": "64d2ea0e8563c319"
+    }
+  ],
+  "deltas": [
+    {
+      "op": "alter",
+      "key": "columns\u0000[\"public\",\"resume_education_details\",\"highlights\"]",
+      "set": {
+        "notNull": false
+      }
+    }
+  ]
+}

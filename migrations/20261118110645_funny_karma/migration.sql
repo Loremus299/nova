@@ -1,0 +1,1 @@
+ALTER TABLE "resume_education_details" ALTER COLUMN "highlights" DROP NOT NULL;
