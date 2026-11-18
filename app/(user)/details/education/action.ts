@@ -6,7 +6,7 @@ import db from "@/lib/db";
 import { educationTable } from "@/lib/db/schema";
 import { educationSchema } from "@/schemas";
 import Result, { ResultType } from "@loremus299/pineapple";
-import { DrizzleQueryError } from "drizzle-orm";
+import { DrizzleQueryError, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import z from "zod";
 
@@ -55,6 +55,9 @@ export async function addEducationDetails(
 			await Result.tryCatch(
 				async () =>
 					await db.transaction(async (tx) => {
+						await tx
+							.delete(educationTable)
+							.where(eq(educationTable.user, sessionData.user.id));
 						for (const data of values) {
 							await tx.insert(educationTable).values({
 								user: sessionData.user.id,

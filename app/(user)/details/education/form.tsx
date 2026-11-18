@@ -16,14 +16,14 @@ import LoadingButton from "@/components/badcn/loadingButton";
 const schema = z.object({ education: educationSchema });
 
 export default function EducationDetailsForm({
-	values,
+	defaultValues,
 }: {
-	values?: z.infer<typeof educationSchema>;
+	defaultValues?: z.infer<typeof educationSchema>;
 }) {
 	const form = useForm({
 		resolver: zodResolver(schema),
 		defaultValues: {
-			education: values ?? [
+			education: defaultValues ?? [
 				{
 					institution: "",
 					duration: "",

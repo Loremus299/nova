@@ -1,7 +1,7 @@
 import Container from "@/components/container";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import EducationDetailsForm from "./form";
 import Result from "@loremus299/pineapple";
 import db from "@/lib/db";
@@ -21,6 +21,10 @@ export default async function Page() {
 		DrizzleQueryError,
 	);
 
+	const data = await Result.settle([f1]);
+	if (!data.outcome.success) return notFound();
+	const [education] = data.outcome.data;
+
 	return (
 		<Container>
 			<div className="p-4 grid place-items-center min-h-screen">
@@ -30,7 +34,17 @@ export default async function Page() {
 						These details will appear on your resumes. These details are case
 						sensitive.
 					</h2>
-					<EducationDetailsForm />
+					<EducationDetailsForm
+						defaultValues={education.map((item) => ({
+							duration: item.duration,
+							grade: item.grade,
+							institution: item.institution,
+							qualification: item.qualification,
+							highlights: item.highlights?.map((highlight) => ({
+								highlight,
+							})),
+						}))}
+					/>
 				</main>
 			</div>
 		</Container>
