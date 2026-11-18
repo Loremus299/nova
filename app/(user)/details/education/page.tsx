@@ -2,6 +2,7 @@ import Container from "@/components/container";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import EducationDetailsForm from "./form";
 
 export default async function Page() {
 	const session = await auth.api.getSession({ headers: await headers() });
@@ -16,6 +17,7 @@ export default async function Page() {
 						These details will appear on your resumes. These details are case
 						sensitive.
 					</h2>
+					<EducationDetailsForm />
 				</main>
 			</div>
 		</Container>

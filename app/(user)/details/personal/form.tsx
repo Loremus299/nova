@@ -82,7 +82,7 @@ export default function UserDetailsForm() {
 				name="urls"
 				label="Links"
 				defaultItem={{ name: "", url: "" }}
-				className="flex items-start gap-2 border p-2"
+				className="flex items-start gap-2 border p-4"
 				renderItem={(i) => (
 					<div className="grid gap-4 flex-1">
 						<FormController
