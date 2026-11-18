@@ -48,6 +48,9 @@ export const educationTable = pgTable("resume_education_details", {
 	id: text("id")
 		.primaryKey()
 		.$defaultFn(() => globalThis.crypto.randomUUID()),
+	user: text("user")
+		.references(() => user.id, { onDelete: "cascade" })
+		.notNull(),
 
 	institution: text().notNull(),
 	qualification: text().notNull(),

@@ -1,0 +1,2 @@
+ALTER TABLE "resume_education_details" ADD COLUMN "user" text NOT NULL;--> statement-breakpoint
+ALTER TABLE "resume_education_details" ADD CONSTRAINT "resume_education_details_user_user_id_fkey" FOREIGN KEY ("user") REFERENCES "user"("id") ON DELETE CASCADE;

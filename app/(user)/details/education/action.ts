@@ -57,6 +57,7 @@ export async function addEducationDetails(
 					await db.transaction(async (tx) => {
 						for (const data of values) {
 							await tx.insert(educationTable).values({
+								user: sessionData.user.id,
 								institution: data.institution,
 								qualification: data.qualification,
 								duration: data.duration,
