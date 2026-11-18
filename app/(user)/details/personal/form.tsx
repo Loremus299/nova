@@ -5,12 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormController from "@/components/badcn/formController";
 import { Input } from "@/components/ui/input";
-import KeyValueInput from "@/components/kvInput";
 import LoadingButton from "@/components/badcn/loadingButton";
 import { Check } from "lucide-react";
-import z from "zod";
-import addUserDetails from "@/actions/details/user-details";
-import { toast } from "@/components/ui/toast";
 
 export default function UserDetailsForm() {
 	const form = useForm({
@@ -24,24 +20,8 @@ export default function UserDetailsForm() {
 		},
 	});
 
-	const onSubmit = async (values: z.infer<typeof userSchema>) => {
-		toast.promise(
-			addUserDetails(values).then((res) => {
-				if (!res.success) throw new Error(res.error);
-			}),
-			{
-				loading: "Adding resume details...",
-				error: (e: Error) => e.message,
-				success: "Successfully added resume details",
-			},
-		);
-	};
-
 	return (
-		<form
-			className="grid gap-4 w-xl portrait:w-full"
-			onSubmit={form.handleSubmit(onSubmit)}
-		>
+		<form className="grid gap-4 w-xl portrait:w-full">
 			<FormController
 				form={form}
 				label="Name"
@@ -93,28 +73,6 @@ export default function UserDetailsForm() {
 						id={field.name}
 						aria-invalid={fieldState.invalid}
 						placeholder="Ottawa, Canada."
-					/>
-				)}
-			/>
-			<FormController
-				form={form}
-				label="Links"
-				description="Add your portfolio, LinkedIn, blog, or any other links."
-				name="urls"
-				render={({ field }) => (
-					<KeyValueInput<string>
-						placeholder="URL Name (e.g, LinkedIn, Portfolio, Github)"
-						value={field.value ?? {}}
-						onChange={field.onChange}
-						createValue={() => ""}
-						renderValue={({ value, onChange }) => (
-							<Input
-								type="url"
-								value={value}
-								onChange={(e) => onChange(e.target.value)}
-								placeholder="https://..."
-							/>
-						)}
 					/>
 				)}
 			/>
