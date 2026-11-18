@@ -12,15 +12,19 @@ import z from "zod";
 import { toast } from "@/components/ui/toast";
 import { addPersonalDetails } from "./action";
 
-export default function UserDetailsForm() {
+export default function UserDetailsForm({
+	defaultValues,
+}: {
+	defaultValues?: z.infer<typeof userSchema>;
+}) {
 	const form = useForm({
 		resolver: zodResolver(userSchema),
 		defaultValues: {
-			name: "",
-			email: "",
-			phone: "",
-			location: "",
-			urls: [{ name: "", url: "" }],
+			name: defaultValues ? defaultValues.name : "",
+			email: defaultValues ? defaultValues.email : "",
+			phone: defaultValues ? defaultValues.phone : "",
+			location: defaultValues ? defaultValues.location : "",
+			urls: defaultValues ? defaultValues.urls : [{ name: "", url: "" }],
 		},
 	});
 

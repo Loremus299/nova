@@ -2,11 +2,41 @@ import Container from "@/components/container";
 import UserDetailsForm from "./form";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import Result from "@loremus299/pineapple";
+import { DrizzleQueryError, eq } from "drizzle-orm";
+import db from "@/lib/db";
+import { userDetails, userDetailUrls } from "@/lib/db/schema";
 
 export default async function Page() {
 	const session = await auth.api.getSession({ headers: await headers() });
 	if (!session) redirect("/git-in");
+
+	const f1 = Promise.resolve(
+		(
+			await Result.tryCatch(
+				async () =>
+					db
+						.select()
+						.from(userDetails)
+						.where(eq(userDetails.user, session.user.id)),
+				DrizzleQueryError,
+			)
+		).one(),
+	);
+
+	const f2 = Result.tryCatch(
+		async () =>
+			db
+				.select()
+				.from(userDetailUrls)
+				.where(eq(userDetailUrls.user, session.user.id)),
+		DrizzleQueryError,
+	);
+
+	const data = await Result.settle([f1, f2]);
+	if (!data.outcome.success) return notFound();
+	const [personal, url] = data.outcome.data;
 
 	return (
 		<Container>
@@ -17,7 +47,15 @@ export default async function Page() {
 						These details will appear on your resumes. These details are case
 						sensitive.
 					</h2>
-					<UserDetailsForm />
+					<UserDetailsForm
+						defaultValues={{
+							name: personal.name,
+							email: personal.email,
+							phone: personal.phone,
+							location: personal.location ?? undefined,
+							urls: url.map((item) => ({ name: item.key, url: item.value })),
+						}}
+					/>
 				</main>
 			</div>
 		</Container>
