@@ -7,6 +7,7 @@ import FormController from "@/components/badcn/formController";
 import { Input } from "@/components/ui/input";
 import LoadingButton from "@/components/badcn/loadingButton";
 import { Check } from "lucide-react";
+import FieldArrayController from "@/components/fieldArrayController";
 
 export default function UserDetailsForm() {
 	const form = useForm({
@@ -74,6 +75,43 @@ export default function UserDetailsForm() {
 						aria-invalid={fieldState.invalid}
 						placeholder="Ottawa, Canada."
 					/>
+				)}
+			/>
+			<FieldArrayController
+				form={form}
+				name="urls"
+				label="Links"
+				defaultItem={{ name: "", url: "" }}
+				className="flex items-start gap-2 border p-2"
+				renderItem={(i) => (
+					<div className="grid gap-4 flex-1">
+						<FormController
+							form={form}
+							name={`urls.${i}.name`}
+							label="Name"
+							render={({ field, fieldState }) => (
+								<Input
+									{...field}
+									id={field.name}
+									aria-invalid={fieldState.invalid}
+									placeholder="Portfolio"
+								/>
+							)}
+						/>
+						<FormController
+							form={form}
+							name={`urls.${i}.url`}
+							label="URL"
+							render={({ field, fieldState }) => (
+								<Input
+									{...field}
+									id={field.name}
+									aria-invalid={fieldState.invalid}
+									placeholder="https://..."
+								/>
+							)}
+						/>
+					</div>
 				)}
 			/>
 			<LoadingButton loading={form.formState.isSubmitting} type="submit">
