@@ -8,6 +8,9 @@ import { Input } from "@/components/ui/input";
 import LoadingButton from "@/components/badcn/loadingButton";
 import { Check } from "lucide-react";
 import FieldArrayController from "@/components/fieldArrayController";
+import z from "zod";
+import { toast } from "@/components/ui/toast";
+import { addPersonalDetails } from "./action";
 
 export default function UserDetailsForm() {
 	const form = useForm({
@@ -21,8 +24,26 @@ export default function UserDetailsForm() {
 		},
 	});
 
+	const onSubmit = async (values: z.infer<typeof userSchema>) => {
+		const load = toast.add({ type: "loading", title: "Loading..." });
+		const act = await addPersonalDetails(values);
+		toast.close(load);
+
+		if (act.success)
+			toast.add({ type: "success", title: "Added personal details." });
+		else
+			toast.add({
+				type: "error",
+				title: act.error.error,
+				description: act.error.requestId,
+			});
+	};
+
 	return (
-		<form className="grid gap-4 w-xl portrait:w-full">
+		<form
+			className="grid gap-4 w-xl portrait:w-full"
+			onSubmit={form.handleSubmit(onSubmit)}
+		>
 			<FormController
 				form={form}
 				label="Name"

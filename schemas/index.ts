@@ -1,11 +1,11 @@
 import z from "zod";
 
 export const userSchema = z.object({
-	name: z.string(),
+	name: z.string().min(1).max(50),
 	email: z.email(),
-	phone: z.string(),
+	phone: z.string().min(1),
 	location: z.string().optional(),
-	urls: z.array(z.object({ name: z.string(), url: z.string() })),
+	urls: z.array(z.object({ name: z.string(), url: z.url() })),
 });
 
 export const projectSchema = z.array(
