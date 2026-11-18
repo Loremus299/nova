@@ -11,14 +11,14 @@
 		"description": {
 			"type": "object",
 			"properties": {
-				"technical": {
+				"project": {
 					"type": "string"
 				},
-				"project": {
+				"technical": {
 					"type": "string"
 				}
 			},
-			"required": ["technical", "project"],
+			"required": ["project", "technical"],
 			"additionalProperties": false
 		},
 		"urls": {
@@ -70,7 +70,7 @@
 		},
 		"status": {
 			"type": "string",
-			"enum": ["in development", "completed", "maintained", "archived"]
+			"enum": ["in-development", "completed", "maintained", "archived"]
 		},
 		"presentation": {
 			"type": "object",
@@ -99,5 +99,5 @@
 		"status",
 		"presentation"
 	],
-	"additionalProperties": true
+	"additionalProperties": false
 }
