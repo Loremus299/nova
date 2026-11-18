@@ -1,4 +1,11 @@
+import resumeSchema, {
+	educationSchema,
+	experienceSchema,
+	projectSchema,
+	userSchema,
+} from "@/schemas";
 import jobSchema from "@/schemas/job";
+import novaSchema from "@/schemas/nova";
 import Result from "@loremus299/pineapple";
 import Logger from "@loremus299/strawberry";
 import { OpenRouter } from "@openrouter/sdk";
@@ -59,6 +66,144 @@ export async function analyzeJobDescription(
 			}
 
 			const data = jobSchema.safeParse(parsed);
+			if (!data.success) {
+				log.error(
+					"AI error - inappropriate response",
+					t.choices[0].message.content as string,
+				);
+				return Result.error("The AI returned an inappropriate response.");
+			}
+
+			return Result.ok({
+				model: t.model,
+				output: data.data,
+			});
+		});
+}
+
+type TailorProject = { model: string; output: z.infer<typeof projectSchema> };
+
+export async function tailorProjects(
+	projects: Array<z.infer<typeof novaSchema>>,
+	job: z.infer<typeof jobSchema>,
+	log: Logger,
+): Promise<Result<TailorProject, string>> {
+	return (
+		await Result.tryCatch(
+			async () =>
+				openRouter.chat.send({
+					chatRequest: {
+						messages: [
+							{
+								role: "system",
+								content: readFileSync(
+									process.cwd() + "/openrouter/prompts/tailor-project.md",
+									"utf-8",
+								),
+							},
+							{ role: "user", content: String(job) },
+							{ role: "user", content: String(projects) },
+						],
+					},
+				}),
+			Error,
+		)
+	)
+		.unrelated(() => log.debug("job and projects", { job, projects }))
+		.mapError((error) => {
+			log.error("AI error - openrouter failure", { error, type: typeof error });
+			return "The AI failed to tailor projects for your resume.";
+		})
+		.chainOk(async (t) => {
+			const content = t.choices[0]?.message.content;
+
+			if (typeof content !== "string") {
+				return Result.error("The AI returned an empty response.");
+			}
+
+			let parsed: unknown;
+
+			try {
+				parsed = JSON.parse(content);
+			} catch {
+				log.error("AI error - invalid JSON", content);
+				return Result.error("The AI returned invalid JSON.");
+			}
+
+			const data = projectSchema.safeParse(parsed);
+			if (!data.success) {
+				log.error(
+					"AI error - inappropriate response",
+					t.choices[0].message.content as string,
+				);
+				return Result.error("The AI returned an inappropriate response.");
+			}
+
+			return Result.ok({
+				model: t.model,
+				output: data.data,
+			});
+		});
+}
+
+type TailorResume = { model: string; output: z.infer<typeof resumeSchema> };
+
+export async function tailorResume(
+	projects: z.infer<typeof projectSchema>,
+	profile: {
+		personal: z.infer<typeof userSchema>;
+		experience: z.infer<typeof experienceSchema>;
+		education: z.infer<typeof educationSchema>;
+	},
+	job: z.infer<typeof jobSchema>,
+	log: Logger,
+): Promise<Result<TailorResume, string>> {
+	return (
+		await Result.tryCatch(
+			async () =>
+				openRouter.chat.send({
+					chatRequest: {
+						messages: [
+							{
+								role: "system",
+								content: readFileSync(
+									process.cwd() + "/openrouter/prompts/tailor-resume.md",
+									"utf-8",
+								),
+							},
+							{ role: "user", content: String(job) },
+							{ role: "user", content: String(profile) },
+							{ role: "user", content: String(projects) },
+						],
+					},
+				}),
+			Error,
+		)
+	)
+		.unrelated(() =>
+			log.debug("job, projects and profile", { job, projects, profile }),
+		)
+		.mapError((error) => {
+			log.error("AI error - openrouter failure", { error, type: typeof error });
+			return "The AI failed to tailor your resume.";
+		})
+		.chainOk(async (t) => {
+			const content = t.choices[0]?.message.content;
+
+			if (typeof content !== "string") {
+				return Result.error("The AI returned an empty response.");
+			}
+
+			let parsed: unknown;
+
+			try {
+				parsed = JSON.parse(content);
+			} catch {
+				log.error("AI error - invalid JSON", content);
+				return Result.error("The AI returned invalid JSON.");
+			}
+
+			const data = resumeSchema.safeParse(parsed);
 			if (!data.success) {
 				log.error(
 					"AI error - inappropriate response",
