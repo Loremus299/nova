@@ -43,12 +43,21 @@ export default function FieldArrayController<
 			{fieldArray.fields.map((f, i) => (
 				<div key={f.id} {...divProps}>
 					{renderItem(i)}
-					<Button type="button" onClick={() => fieldArray.remove(i)}>
+					<Button
+						type="button"
+						size={"xs"}
+						variant={"secondary"}
+						onClick={() => fieldArray.remove(i)}
+					>
 						-
 					</Button>
 				</div>
 			))}
-			<Button type="button" onClick={() => fieldArray.append(defaultItem)}>
+			<Button
+				type="button"
+				variant={"secondary"}
+				onClick={() => fieldArray.append(defaultItem)}
+			>
 				+
 			</Button>
 			<FieldError errors={[rootError]} />
