@@ -64,3 +64,23 @@ export const educationTable = pgTable("resume_education_details", {
 		.$onUpdate(() => /* @__PURE__ */ new Date())
 		.notNull(),
 });
+
+export const experienceTable = pgTable("resume_experience_details", {
+	id: text("id")
+		.primaryKey()
+		.$defaultFn(() => globalThis.crypto.randomUUID()),
+	user: text("user")
+		.references(() => user.id, { onDelete: "cascade" })
+		.notNull(),
+
+	company: text().notNull(),
+	role: text().notNull(),
+	duration: text().notNull(),
+	highlights: text().array(),
+
+	createdAt: timestamp("created_at").defaultNow().notNull(),
+	updatedAt: timestamp("updated_at")
+		.defaultNow()
+		.$onUpdate(() => /* @__PURE__ */ new Date())
+		.notNull(),
+});

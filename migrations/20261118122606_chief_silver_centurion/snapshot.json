@@ -1,0 +1,225 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "20598256-f910-46fa-ae06-e2cc2ad03bae",
+  "prevIds": [
+    "f0372261-3025-4134-946a-2f31749d0248"
+  ],
+  "footprints": [
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "resume_experience_details"
+      ],
+      "writes": [
+        "s|tbl|public.resume_experience_details",
+        "n|tbl|public.resume_experience_details",
+        "e|tbl|public.resume_experience_details",
+        "n|rel|public.resume_experience_details",
+        "n|type|public.resume_experience_details",
+        "n|rel|public.resume_experience_details_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "resume_experience_details"
+      ],
+      "writes": [
+        "s|fk|public.resume_experience_details.resume_experience_details_user_user_id_fkey",
+        "n|fk|public.resume_experience_details.resume_experience_details_user_user_id_fkey",
+        "e|fk|public.resume_experience_details.resume_experience_details_user_user_id_fkey",
+        "n|con|public.resume_experience_details.resume_experience_details_user_user_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.resume_experience_details",
+        "n|sch|public",
+        "n|tbl|public.user",
+        "n|sch|public",
+        "n|col|public.resume_experience_details.user",
+        "n|col|public.user.id",
+        "e|uniqueness|public.user.id"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "name": "resume_experience_details",
+        "isRlsEnabled": false,
+        "entityType": "tables"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "resume_experience_details",
+        "name": "id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "resume_experience_details",
+        "name": "user",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "resume_experience_details",
+        "name": "company",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "resume_experience_details",
+        "name": "role",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "resume_experience_details",
+        "name": "duration",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "resume_experience_details",
+        "name": "highlights",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 1,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "resume_experience_details",
+        "name": "created_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "now()",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "resume_experience_details",
+        "name": "updated_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "now()",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "resume_experience_details",
+        "name": "resume_experience_details_user_user_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "user"
+        ],
+        "schemaTo": "public",
+        "tableTo": "user",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "resume_experience_details",
+        "name": "resume_experience_details_pkey",
+        "columns": [
+          "id"
+        ],
+        "nameExplicit": false,
+        "entityType": "pks"
+      }
+    }
+  ]
+}
