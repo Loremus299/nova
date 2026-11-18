@@ -43,3 +43,21 @@ export const userDetailUrls = pgTable(
 	},
 	(t) => [unique().on(t.user, t.key)],
 );
+
+export const educationTable = pgTable("resume_education_details", {
+	id: text("id")
+		.primaryKey()
+		.$defaultFn(() => globalThis.crypto.randomUUID()),
+
+	institution: text().notNull(),
+	qualification: text().notNull(),
+	duration: text().notNull(),
+	grade: text().notNull(),
+	highlights: text().array().notNull(),
+
+	createdAt: timestamp("created_at").defaultNow().notNull(),
+	updatedAt: timestamp("updated_at")
+		.defaultNow()
+		.$onUpdate(() => /* @__PURE__ */ new Date())
+		.notNull(),
+});

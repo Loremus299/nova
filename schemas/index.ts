@@ -32,7 +32,7 @@ export const educationSchema = z.array(
 		institution: z.string(),
 		qualification: z.string(),
 		duration: z.string(),
-		grade: z.string().optional(),
+		grade: z.string(),
 		highlights: z.array(z.object({ highlight: z.string() })).optional(),
 	}),
 );
