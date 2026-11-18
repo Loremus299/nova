@@ -13,6 +13,7 @@
     "@hookform/resolvers": "^7.0.6",
     "@loremus299/pineapple": "^1.1.0",
     "@loremus299/strawberry": "^1.1.0",
+    "@openrouter/sdk": "^1.5.112",
     "better-auth": "^1.7.25",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.5.2",
