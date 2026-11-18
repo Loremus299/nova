@@ -16,7 +16,7 @@ export default function UserDetailsForm() {
 			email: "",
 			phone: "",
 			location: "",
-			urls: {},
+			urls: [{}],
 		},
 	});
 

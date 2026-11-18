@@ -5,7 +5,7 @@ export const userSchema = z.object({
 	email: z.email(),
 	phone: z.string(),
 	location: z.string().optional(),
-	urls: z.record(z.string(), z.url()).default({}),
+	urls: z.array(z.object({ name: z.string(), url: z.string() })),
 });
 
 export const projectSchema = z.array(
@@ -14,7 +14,7 @@ export const projectSchema = z.array(
 		description: z.string(),
 		urls: z.record(z.string(), z.url()),
 		tech: z.array(z.string()),
-		highlights: z.array(z.string()),
+		highlights: z.array(z.object({ highlight: z.string() })).optional(),
 	}),
 );
 
@@ -23,7 +23,7 @@ export const experienceSchema = z.array(
 		company: z.string(),
 		role: z.string(),
 		duration: z.string(),
-		highlights: z.array(z.string()),
+		highlights: z.array(z.object({ highlight: z.string() })).optional(),
 	}),
 );
 
@@ -33,7 +33,7 @@ export const educationSchema = z.array(
 		qualification: z.string(),
 		duration: z.string(),
 		grade: z.string().optional(),
-		highlights: z.array(z.string()).optional(),
+		highlights: z.array(z.object({ highlight: z.string() })).optional(),
 	}),
 );
 
