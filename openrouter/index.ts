@@ -29,6 +29,7 @@ export async function analyzeJobDescription(
 			async () =>
 				await openRouter.chat.send({
 					chatRequest: {
+						model: "openrouter/auto",
 						messages: [
 							{
 								role: "system",
@@ -67,10 +68,7 @@ export async function analyzeJobDescription(
 
 			const data = jobSchema.safeParse(parsed);
 			if (!data.success) {
-				log.error(
-					"AI error - inappropriate response",
-					t.choices[0].message.content as string,
-				);
+				log.error("AI error - inappropriate response", data.error.issues);
 				return Result.error("The AI returned an inappropriate response.");
 			}
 
@@ -93,6 +91,7 @@ export async function tailorProjects(
 			async () =>
 				openRouter.chat.send({
 					chatRequest: {
+						model: "openrouter/auto",
 						messages: [
 							{
 								role: "system",
@@ -101,8 +100,8 @@ export async function tailorProjects(
 									"utf-8",
 								),
 							},
-							{ role: "user", content: String(job) },
-							{ role: "user", content: String(projects) },
+							{ role: "user", content: JSON.stringify(job) },
+							{ role: "user", content: JSON.stringify(projects) },
 						],
 					},
 				}),
@@ -132,10 +131,7 @@ export async function tailorProjects(
 
 			const data = projectSchema.safeParse(parsed);
 			if (!data.success) {
-				log.error(
-					"AI error - inappropriate response",
-					t.choices[0].message.content as string,
-				);
+				log.error("AI error - inappropriate response", data.error.issues);
 				return Result.error("The AI returned an inappropriate response.");
 			}
 
@@ -146,7 +142,11 @@ export async function tailorProjects(
 		});
 }
 
-type TailorResume = { model: string; output: z.infer<typeof resumeSchema> };
+const tailorResumeSchema = resumeSchema.omit({ metadata: true });
+type TailorResume = {
+	model: string;
+	output: z.infer<typeof tailorResumeSchema>;
+};
 
 export async function tailorResume(
 	projects: z.infer<typeof projectSchema>,
@@ -163,6 +163,7 @@ export async function tailorResume(
 			async () =>
 				openRouter.chat.send({
 					chatRequest: {
+						model: "openrouter/auto",
 						messages: [
 							{
 								role: "system",
@@ -171,9 +172,9 @@ export async function tailorResume(
 									"utf-8",
 								),
 							},
-							{ role: "user", content: String(job) },
-							{ role: "user", content: String(profile) },
-							{ role: "user", content: String(projects) },
+							{ role: "user", content: JSON.stringify(job) },
+							{ role: "user", content: JSON.stringify(profile) },
+							{ role: "user", content: JSON.stringify(projects) },
 						],
 					},
 				}),
@@ -203,12 +204,9 @@ export async function tailorResume(
 				return Result.error("The AI returned invalid JSON.");
 			}
 
-			const data = resumeSchema.safeParse(parsed);
+			const data = tailorResumeSchema.safeParse(parsed);
 			if (!data.success) {
-				log.error(
-					"AI error - inappropriate response",
-					t.choices[0].message.content as string,
-				);
+				log.error("AI error - inappropriate response", data.error.issues);
 				return Result.error("The AI returned an inappropriate response.");
 			}
 
