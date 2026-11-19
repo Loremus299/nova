@@ -13,16 +13,14 @@ export default async function Page() {
 	if (!session) redirect("/git-in");
 
 	const f1 = Promise.resolve(
-		(
-			await Result.tryCatch(
-				async () =>
-					db
-						.select()
-						.from(userDetails)
-						.where(eq(userDetails.user, session.user.id)),
-				DrizzleQueryError,
-			)
-		).one(),
+		await Result.tryCatch(
+			async () =>
+				db
+					.select()
+					.from(userDetails)
+					.where(eq(userDetails.user, session.user.id)),
+			DrizzleQueryError,
+		),
 	);
 
 	const f2 = Result.tryCatch(
@@ -49,10 +47,10 @@ export default async function Page() {
 					</h2>
 					<UserDetailsForm
 						defaultValues={{
-							name: personal.name,
-							email: personal.email,
-							phone: personal.phone,
-							location: personal.location ?? undefined,
+							name: personal[0]?.name ?? "",
+							email: personal[0]?.email ?? "",
+							phone: personal[0]?.phone ?? "",
+							location: personal[0]?.location ?? undefined,
 							urls: [
 								...url.map((item) => ({ name: item.key, url: item.value })),
 								{

@@ -122,7 +122,7 @@ export default async function Page() {
 								{item.role} ({item.duration})
 							</h2>
 							{item.highlights?.map((item) => (
-								<div key={item} className="text-sm">
+								<div key={item} className="text-sm mt-2">
 									<p>- {item}</p>
 								</div>
 							))}
@@ -149,7 +149,7 @@ export default async function Page() {
 								{item.qualification} ({item.duration}) | {item.grade}
 							</h2>
 							{item.highlights?.map((item) => (
-								<div key={item} className="text-sm">
+								<div key={item} className="text-sm mt-2">
 									<p>- {item}</p>
 								</div>
 							))}

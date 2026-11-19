@@ -37,7 +37,8 @@ export const auth = betterAuth({
 					).chainOk(async (t) => {
 						return Result.tryCatch(async () => {
 							const { login } = await t.json();
-							db.update(schema.user)
+							await db
+								.update(schema.user)
 								.set({ name: login })
 								.where(eq(schema.user.id, account.userId));
 						}, DrizzleQueryError);
