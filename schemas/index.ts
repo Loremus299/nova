@@ -49,6 +49,8 @@ const resumeSchema = z.object({
 
 	metadata: z.object({
 		createdAt: z.iso.datetime(),
+		posting: z.url(),
+		host: z.string(),
 		company: z.object({ name: z.string(), role: z.string() }),
 	}),
 });
