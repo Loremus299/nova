@@ -53,7 +53,13 @@ export default async function Page() {
 							email: personal.email,
 							phone: personal.phone,
 							location: personal.location ?? undefined,
-							urls: url.map((item) => ({ name: item.key, url: item.value })),
+							urls: [
+								...url.map((item) => ({ name: item.key, url: item.value })),
+								{
+									name: "GitHub",
+									url: `https://github.com/${session.user.name}`,
+								},
+							],
 						}}
 					/>
 				</main>
