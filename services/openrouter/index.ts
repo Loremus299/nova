@@ -20,7 +20,7 @@ const openRouter = new OpenRouter({
 
 type AnalyzeJDSuccess = { model: string; output: z.infer<typeof jobSchema> };
 
-export async function analyzeJobDescription(
+async function analyzeJobDescription(
 	job: string,
 	log: Logger,
 ): Promise<Result<AnalyzeJDSuccess, string>> {
@@ -81,7 +81,7 @@ export async function analyzeJobDescription(
 
 type TailorProject = { model: string; output: z.infer<typeof projectSchema> };
 
-export async function tailorProjects(
+async function tailorProjects(
 	projects: Array<z.infer<typeof novaSchema>>,
 	job: z.infer<typeof jobSchema>,
 	log: Logger,
@@ -148,7 +148,7 @@ type TailorResume = {
 	output: z.infer<typeof tailorResumeSchema>;
 };
 
-export async function tailorResume(
+async function tailorResume(
 	projects: z.infer<typeof projectSchema>,
 	profile: {
 		personal: z.infer<typeof userSchema>;
@@ -216,3 +216,9 @@ export async function tailorResume(
 			});
 		});
 }
+
+export const llmService = {
+	analyzeJobDescription,
+	tailorProjects,
+	tailorResume,
+};
