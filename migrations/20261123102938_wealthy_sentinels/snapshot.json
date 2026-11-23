@@ -1,0 +1,160 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "ec5038c9-f929-4298-9cee-65e59f7cd8f7",
+  "prevIds": [
+    "e88d405c-009e-49c0-986d-b0b0be9c3ba9"
+  ],
+  "footprints": [
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "github_table"
+      ],
+      "writes": [
+        "s|tbl|public.github_table",
+        "n|tbl|public.github_table",
+        "e|tbl|public.github_table",
+        "n|rel|public.github_table",
+        "n|type|public.github_table",
+        "n|rel|public.github_table_pkey",
+        "n|rel|public.github_table_user_key"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "github_table"
+      ],
+      "writes": [
+        "s|fk|public.github_table.github_table_user_user_id_fkey",
+        "n|fk|public.github_table.github_table_user_user_id_fkey",
+        "e|fk|public.github_table.github_table_user_user_id_fkey",
+        "n|con|public.github_table.github_table_user_user_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.github_table",
+        "n|sch|public",
+        "n|tbl|public.user",
+        "n|sch|public",
+        "n|col|public.github_table.user",
+        "n|col|public.user.id",
+        "e|uniqueness|public.user.id"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "name": "github_table",
+        "isRlsEnabled": false,
+        "entityType": "tables"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "github_table",
+        "name": "id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "github_table",
+        "name": "user",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "github_table",
+        "name": "github_data",
+        "type": "json",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "github_table",
+        "name": "github_table_user_user_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "user"
+        ],
+        "schemaTo": "public",
+        "tableTo": "user",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "github_table",
+        "name": "github_table_pkey",
+        "columns": [
+          "id"
+        ],
+        "nameExplicit": false,
+        "entityType": "pks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "github_table",
+        "name": "github_table_user_key",
+        "nameExplicit": false,
+        "columns": [
+          "user"
+        ],
+        "nullsNotDistinct": false,
+        "entityType": "uniques"
+      }
+    }
+  ]
+}
