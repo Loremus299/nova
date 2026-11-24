@@ -141,10 +141,9 @@ async function tailorProjects(
 		});
 }
 
-const tailorResumeSchema = resumeSchema.omit({ metadata: true });
 type TailorResume = {
 	model: string;
-	output: z.infer<typeof tailorResumeSchema>;
+	output: z.infer<typeof resumeSchema>;
 };
 
 async function tailorResume(
@@ -203,7 +202,7 @@ async function tailorResume(
 				return Result.error("The AI returned invalid JSON.");
 			}
 
-			const data = tailorResumeSchema.safeParse(parsed);
+			const data = resumeSchema.safeParse(parsed);
 			if (!data.success) {
 				log.error("AI error - inappropriate response", data.error.issues);
 				return Result.error("The AI returned an inappropriate response.");

@@ -46,13 +46,14 @@ const resumeSchema = z.object({
 	projects: projectSchema,
 	experience: experienceSchema,
 	education: educationSchema,
-
-	metadata: z.object({
-		createdAt: z.iso.datetime(),
-		posting: z.url(),
-		host: z.string(),
-		company: z.object({ name: z.string(), role: z.string() }),
-	}),
 });
 
 export default resumeSchema;
+
+console.log(
+	JSON.stringify(
+		resumeSchema.toJSONSchema({ target: "draft-2020-12" }),
+		null,
+		2,
+	),
+);

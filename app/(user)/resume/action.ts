@@ -151,7 +151,7 @@ export async function tailorNewResume(
 								})),
 							},
 							t.output,
-							log.nest(""),
+							log.nest("LLM - tailor resume"),
 						),
 				),
 			)
