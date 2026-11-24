@@ -49,11 +49,3 @@ const resumeSchema = z.object({
 });
 
 export default resumeSchema;
-
-console.log(
-	JSON.stringify(
-		resumeSchema.toJSONSchema({ target: "draft-2020-12" }),
-		null,
-		2,
-	),
-);
