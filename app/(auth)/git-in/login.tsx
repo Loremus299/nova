@@ -13,8 +13,9 @@ export default function Login() {
 		await authClient.signIn
 			.social({
 				provider: "github",
+				callbackURL: "/dashboard",
 			})
-			.then(() => setLoading(false));
+			.finally(() => setLoading(false));
 	};
 
 	return (

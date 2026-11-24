@@ -99,5 +99,5 @@
 		"status",
 		"presentation"
 	],
-	"additionalProperties": true
+	"additionalProperties": false
 }
