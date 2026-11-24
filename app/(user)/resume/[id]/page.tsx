@@ -4,12 +4,17 @@ import db from "@/lib/db";
 import { resumeTable } from "@/lib/db/schema";
 import resumeSchema from "@/schemas";
 import Result from "@loremus299/pineapple";
-import { DrizzleQueryError, eq } from "drizzle-orm";
+import { DrizzleQueryError, eq, and } from "drizzle-orm";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import z from "zod";
 
-export default async function Page() {
+export default async function Page({
+	params,
+}: {
+	params: Promise<{ id: string }>;
+}) {
+	const { id } = await params;
 	const session = await auth.api.getSession({ headers: await headers() });
 	if (!session) redirect("/git-in");
 
@@ -20,7 +25,12 @@ export default async function Page() {
 					db
 						.select()
 						.from(resumeTable)
-						.where(eq(resumeTable.user, session.user.id)),
+						.where(
+							and(
+								eq(resumeTable.id, id),
+								eq(resumeTable.user, session.user.id),
+							),
+						),
 				DrizzleQueryError,
 			)
 		)
