@@ -1,0 +1,46 @@
+{
+	"$schema": "https://nova.loremus.gay/nova.json",
+	"name": "Nova",
+	"tagline": "The line between your work and your resume.",
+	"description": {
+		"project": "Create a resume tailored for any job using your Github.",
+		"technical": "Fullstack, Typesafe NextJS, Postgres app allowing you to create job specific resumes using your github repos and LLM for tailoring your work to job description"
+	},
+	"tech": [
+		"NextJS",
+		"React",
+		"Shadcn",
+		"Tailwindcss",
+		"Typescript",
+		"Postgres",
+		"Drizzle",
+		"Better Auth",
+		"React Hook Form",
+		"Zod"
+	],
+	"features": [
+		{
+			"name": "Github OAuth",
+			"description": "Using Github OAuth to read repos.",
+			"implementation": "Better Auth's OAuth functionality with scope changes",
+			"tech": ["Better Auth", "Postgres", "Drizzle"]
+		},
+		{
+			"name": "AI Powered Tailoring",
+			"description": "Using LLM Models to analyze job description and tailor a resume for it.",
+			"implementation": "OpenRouter API with auto LLM model and a chain of conversations, 3 with stages of analysis, tailoring projects and tailoring resume",
+			"tech": ["OpenRouter SDK"]
+		}
+	],
+	"highlights": [
+		"Use of Github OAuth to read user repos",
+		"Authentication throughout app",
+		"Using AI to tailor resumes"
+	],
+	"presentation": { "logo": "", "poster": "" },
+	"status": "in-development",
+	"urls": {
+		"Website": "https://nova.loremus.gay",
+		"Github": "https://github.com/Loremus299/nova"
+	}
+}
