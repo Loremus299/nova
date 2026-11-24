@@ -62,7 +62,7 @@ async function fetchFiles(repos: string[], token: string, log: Logger) {
 					if (t.ok) {
 						const body = projectSchema.safeParse(await t.json());
 						if (!body.success) return Result.error("Improper nova.json");
-						Result.ok(body.data);
+						return Result.ok(body.data);
 					}
 					return Result.error(t.statusText);
 				})
