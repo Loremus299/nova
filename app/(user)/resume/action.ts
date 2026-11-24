@@ -20,7 +20,7 @@ import { llmService } from "@/services/openrouter";
 
 export async function tailorNewResume(
 	values: z.infer<typeof newResumeSchema>,
-): Promise<ResultType<null, ActionError>> {
+): Promise<ResultType<string, ActionError>> {
 	const log = actionLogger();
 	log.info("action", "tailor new resume");
 	log.debug("values", values);
@@ -52,7 +52,7 @@ export async function tailorNewResume(
 
 		if (!session.outcome.success) {
 			log.info("response", session.outcome.error);
-			return Result.error<null, ActionError>(session.outcome.error).type;
+			return Result.error<string, ActionError>(session.outcome.error).type;
 		}
 		const sessionData = session.outcome.data;
 		log.debug("session", sessionData);
@@ -95,7 +95,7 @@ export async function tailorNewResume(
 		);
 
 		if (!data.outcome.success)
-			return Result.error<null, ActionError>({
+			return Result.error<string, ActionError>({
 				error: "Failed to get user resume data",
 				requestId: log.id,
 			}).type;
@@ -161,7 +161,7 @@ export async function tailorNewResume(
 		);
 
 		if (!resume.outcome.success)
-			return Result.error<null, ActionError>({
+			return Result.error<string, ActionError>({
 				error: resume.outcome.error,
 				requestId: log.id,
 			}).type;
@@ -169,22 +169,31 @@ export async function tailorNewResume(
 		log.trace("AI Service - finished", null);
 
 		log.trace("resume query - start", null);
-		(
+		const resumeId = (
 			await Result.tryCatch(
 				async () =>
-					await db.insert(resumeTable).values({
-						posting: values.url,
-						resume: resumeData.output,
-						user: sessionData.user.id,
-					}),
+					await db
+						.insert(resumeTable)
+						.values({
+							posting: values.url,
+							resume: resumeData.output,
+							user: sessionData.user.id,
+						})
+						.returning(),
 				DrizzleQueryError,
 			)
 		).onError((e) =>
 			log.error("resume query - error", { error: e, type: typeof e }),
 		);
+
+		if (!resumeId.outcome.success)
+			return Result.error<string, ActionError>({
+				error: "Failed to add generated resume to database",
+				requestId: log.id,
+			}).type;
 		log.trace("resume query - finished", null);
 
-		return Result.ok<null, ActionError>(null).type;
+		return Result.ok<string, ActionError>(resumeId.outcome.data.at(0)!.id).type;
 	} finally {
 		await log.dump();
 	}

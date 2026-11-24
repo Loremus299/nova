@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/toast";
 import { tailorNewResume } from "./action";
+import { useRouter } from "next/navigation";
 
 export const newResumeSchema = z.object({
 	url: z.url(),
@@ -17,6 +18,7 @@ export const newResumeSchema = z.object({
 });
 
 export default function NewResumeForm() {
+	const router = useRouter();
 	const form = useForm({
 		resolver: zodResolver(newResumeSchema),
 		defaultValues: { url: "", description: "" },
@@ -27,9 +29,10 @@ export default function NewResumeForm() {
 		const act = await tailorNewResume(values);
 		toast.close(load);
 
-		if (act.success)
+		if (act.success) {
 			toast.add({ type: "success", title: "Tailored your resume." });
-		else
+			router.push(`/resume/${act.data}`);
+		} else
 			toast.add({
 				type: "error",
 				title: act.error.error,
