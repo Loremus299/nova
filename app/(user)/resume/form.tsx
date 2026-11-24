@@ -57,7 +57,7 @@ export default function NewResumeForm() {
 			/>
 			<FormController
 				form={form}
-				name="url"
+				name="description"
 				label="Job Description"
 				render={({ field, fieldState }) => (
 					<Textarea

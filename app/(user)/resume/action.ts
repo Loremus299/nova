@@ -8,7 +8,14 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { DrizzleQueryError, eq } from "drizzle-orm";
 import db from "@/lib/db";
-import { githubTable } from "@/lib/db/schema";
+import {
+	educationTable,
+	experienceTable,
+	githubTable,
+	userDetails,
+	userDetailUrls,
+} from "@/lib/db/schema";
+import { llmService } from "@/services/openrouter";
 
 export async function tailorNewResume(
 	values: z.infer<typeof newResumeSchema>,
@@ -50,29 +57,114 @@ export async function tailorNewResume(
 		log.debug("session", sessionData);
 		log.trace("auth check - finished", null);
 
-		log.trace("github data - start", null);
-		const ghData = (
+		log.trace("db data - start", null);
+		const data = (
 			await Result.tryCatch(
 				async () =>
-					db
-						.select()
-						.from(githubTable)
-						.where(eq(githubTable.user, sessionData.user.id)),
+					db.transaction(async (tx) => {
+						return {
+							github: (
+								await tx
+									.select()
+									.from(githubTable)
+									.where(eq(githubTable.user, sessionData.user.id))
+							).at(0),
+							personal: await tx
+								.select()
+								.from(userDetails)
+								.where(eq(userDetails.user, sessionData.user.id)),
+							urls: await tx
+								.select()
+								.from(userDetailUrls)
+								.where(eq(userDetailUrls.user, sessionData.user.id)),
+							experience: await tx
+								.select()
+								.from(experienceTable)
+								.where(eq(experienceTable.user, sessionData.user.id)),
+							education: await tx
+								.select()
+								.from(educationTable)
+								.where(eq(educationTable.user, sessionData.user.id)),
+						};
+					}),
 				DrizzleQueryError,
 			)
 		).onError((e) =>
-			log.error("github data - error", { error: e, type: typeof e }),
+			log.error("db data - error", { error: e, type: typeof e }),
 		);
 
-		if (!ghData.outcome.success)
+		if (!data.outcome.success)
 			return Result.error<null, ActionError>({
-				error: "Failed to get github data",
+				error: "Failed to get user resume data",
 				requestId: log.id,
 			}).type;
 
-		const githubData = ghData.outcome.data;
-		log.debug("github data", githubData);
-		log.trace("github data - finished", null);
+		const userData = data.outcome.data;
+		log.debug("db data", userData);
+		log.trace("db data - finished", null);
+
+		log.trace("AI Service - start", null);
+		const resume = (
+			await (
+				await llmService.analyzeJobDescription(
+					values.description,
+					log.nest("LLM - analyze JD"),
+				)
+			).chainOk(async (t) =>
+				(
+					await llmService.tailorProjects(
+						userData.github?.githubData,
+						t.output,
+						log.nest("LLM - tailor projects"),
+					)
+				).chainOk(
+					async (r) =>
+						await llmService.tailorResume(
+							r.output,
+							{
+								personal: {
+									name: userData.personal.at(0)!.name,
+									email: userData.personal.at(0)!.email,
+									phone: userData.personal.at(0)!.phone,
+									location: userData.personal.at(0)!.location ?? undefined,
+									urls: userData.urls.map((item) => ({
+										name: item.key,
+										url: item.value,
+									})),
+								},
+								education: userData.education.map((item) => ({
+									institution: item.institution,
+									qualification: item.qualification,
+									duration: item.duration,
+									grade: item.grade,
+									highlights: item.highlights?.map((highlight) => ({
+										highlight,
+									})),
+								})),
+								experience: userData.experience.map((item) => ({
+									company: item.company,
+									duration: item.duration,
+									role: item.role,
+									highlights: item.highlights?.map((highlight) => ({
+										highlight,
+									})),
+								})),
+							},
+							t.output,
+							log.nest(""),
+						),
+				),
+			)
+		).onError((e) =>
+			log.error("AI Service - error", { error: e, type: typeof e }),
+		);
+
+		if (!resume.outcome.success)
+			return Result.error<null, ActionError>({
+				error: resume.outcome.error,
+				requestId: log.id,
+			}).type;
+		log.trace("AI Service - finished", null);
 
 		return Result.ok<null, ActionError>(null).type;
 	} finally {
