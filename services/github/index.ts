@@ -44,7 +44,7 @@ async function fetchFiles(repos: string[], token: string, log: Logger) {
 				await Result.tryCatch(
 					async () =>
 						await fetch(
-							`https://api.github.com/repos/${repo}/content/nova.json`,
+							`https://api.github.com/repos/${repo}/contents/nova.json`,
 							{
 								headers: {
 									Authorization: `Bearer ${token}`,

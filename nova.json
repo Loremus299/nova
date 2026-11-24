@@ -37,7 +37,10 @@
 		"Authentication throughout app",
 		"Using AI to tailor resumes"
 	],
-	"presentation": { "logo": "", "poster": "" },
+	"presentation": {
+		"logo": "https://nova.loremus.gay/logo.svg",
+		"poster": "https://nova.loremus.gay/logo.svg"
+	},
 	"status": "in-development",
 	"urls": {
 		"Website": "https://nova.loremus.gay",
