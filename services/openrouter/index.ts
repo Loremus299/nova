@@ -33,7 +33,7 @@ async function analyzeJobDescription(
 							{
 								role: "system",
 								content: readFileSync(
-									process.cwd() + "/openrouter/prompts/analyze-job.md",
+									process.cwd() + "/services/openrouter/prompts/analyze-job.md",
 									"utf-8",
 								),
 							},
@@ -95,7 +95,8 @@ async function tailorProjects(
 							{
 								role: "system",
 								content: readFileSync(
-									process.cwd() + "/openrouter/prompts/tailor-project.md",
+									process.cwd() +
+										"/services/openrouter/prompts/tailor-project.md",
 									"utf-8",
 								),
 							},
@@ -166,7 +167,8 @@ async function tailorResume(
 							{
 								role: "system",
 								content: readFileSync(
-									process.cwd() + "/openrouter/prompts/tailor-resume.md",
+									process.cwd() +
+										"/services/openrouter/prompts/tailor-resume.md",
 									"utf-8",
 								),
 							},
