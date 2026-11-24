@@ -210,6 +210,8 @@ async function tailorResume(
 				return Result.error("The AI returned an inappropriate response.");
 			}
 
+			log.debug("Generated Resume", data.data);
+
 			return Result.ok({
 				model: t.model,
 				output: data.data,
