@@ -5,7 +5,6 @@ import resumeSchema, {
 	userSchema,
 } from "@/schemas";
 import jobSchema from "@/schemas/job";
-import novaSchema from "@/schemas/nova";
 import Result from "@loremus299/pineapple";
 import Logger from "@loremus299/strawberry";
 import { OpenRouter } from "@openrouter/sdk";
@@ -82,7 +81,7 @@ async function analyzeJobDescription(
 type TailorProject = { model: string; output: z.infer<typeof projectSchema> };
 
 async function tailorProjects(
-	projects: Array<z.infer<typeof novaSchema>>,
+	projects: unknown,
 	job: z.infer<typeof jobSchema>,
 	log: Logger,
 ): Promise<Result<TailorProject, string>> {
