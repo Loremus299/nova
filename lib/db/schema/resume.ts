@@ -9,10 +9,7 @@ export const resumeTable = pgTable("user_resumes", {
 		.references(() => user.id, { onDelete: "cascade" })
 		.notNull(),
 
-	company: text("company").notNull(),
-	role: text("role").notNull(),
 	posting: text("posting").notNull(),
-	host: text("host").notNull(),
 	resume: json("resume_schema").notNull(),
 
 	createdAt: timestamp("created_at").defaultNow().notNull(),

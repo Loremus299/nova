@@ -12,6 +12,7 @@ import {
 	educationTable,
 	experienceTable,
 	githubTable,
+	resumeTable,
 	userDetails,
 	userDetailUrls,
 } from "@/lib/db/schema";
@@ -164,7 +165,24 @@ export async function tailorNewResume(
 				error: resume.outcome.error,
 				requestId: log.id,
 			}).type;
+		const resumeData = resume.outcome.data;
 		log.trace("AI Service - finished", null);
+
+		log.trace("resume query - start", null);
+		(
+			await Result.tryCatch(
+				async () =>
+					await db.insert(resumeTable).values({
+						posting: values.url,
+						resume: resumeData.output,
+						user: sessionData.user.id,
+					}),
+				DrizzleQueryError,
+			)
+		).onError((e) =>
+			log.error("resume query - error", { error: e, type: typeof e }),
+		);
+		log.trace("resume query - finished", null);
 
 		return Result.ok<null, ActionError>(null).type;
 	} finally {

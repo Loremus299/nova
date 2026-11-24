@@ -1,0 +1,79 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "a02dc863-a066-4639-8390-b913e20efff9",
+  "prevIds": [
+    "ec5038c9-f929-4298-9cee-65e59f7cd8f7"
+  ],
+  "footprints": [
+    {
+      "statementType": "drop_column",
+      "statementTarget": [
+        "column",
+        "public",
+        "user_resumes",
+        "company"
+      ],
+      "writes": [
+        "s|col|public.user_resumes.company",
+        "n|col|public.user_resumes.company",
+        "e|col|public.user_resumes.company"
+      ],
+      "reads": [
+        "n|tbl|public.user_resumes",
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "drop_column",
+      "statementTarget": [
+        "column",
+        "public",
+        "user_resumes",
+        "role"
+      ],
+      "writes": [
+        "s|col|public.user_resumes.role",
+        "n|col|public.user_resumes.role",
+        "e|col|public.user_resumes.role"
+      ],
+      "reads": [
+        "n|tbl|public.user_resumes",
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "drop_column",
+      "statementTarget": [
+        "column",
+        "public",
+        "user_resumes",
+        "host"
+      ],
+      "writes": [
+        "s|col|public.user_resumes.host",
+        "n|col|public.user_resumes.host",
+        "e|col|public.user_resumes.host"
+      ],
+      "reads": [
+        "n|tbl|public.user_resumes",
+        "n|sch|public"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"user_resumes\",\"company\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"user_resumes\",\"role\"]"
+    },
+    {
+      "op": "drop",
+      "key": "columns\u0000[\"public\",\"user_resumes\",\"host\"]"
+    }
+  ]
+}
