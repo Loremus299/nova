@@ -1,49 +1,98 @@
 {
 	"$schema": "https://nova.loremus.gay/nova.json",
 	"name": "Nova",
-	"tagline": "The line between your work and your resume.",
+	"tagline": "Your work, tailored to the opportunity.",
 	"description": {
-		"project": "Create a resume tailored for any job using your Github.",
-		"technical": "Fullstack, Typesafe NextJS, Postgres app allowing you to create job specific resumes using your github repos and LLM for tailoring your work to job description"
+		"project": "Nova turns a candidate's existing experience and GitHub projects into resumes tailored to specific job descriptions.",
+		"technical": "A full-stack Next.js application that connects to GitHub through OAuth, reads structured project metadata, stores candidate profiles in PostgreSQL, and uses OpenRouter models to analyze job descriptions and generate structured, role-specific resumes with PDF previews."
+	},
+	"urls": {
+		"Website": "https://nova.loremus.gay",
+		"GitHub": "https://github.com/Loremus299/nova"
 	},
 	"tech": [
-		"NextJS",
+		"Next.js",
 		"React",
-		"Shadcn",
-		"Tailwindcss",
-		"Typescript",
-		"Postgres",
-		"Drizzle",
+		"TypeScript",
+		"Tailwind CSS",
+		"shadcn/ui",
+		"PostgreSQL",
+		"Drizzle ORM",
 		"Better Auth",
+		"GitHub OAuth",
+		"OpenRouter SDK",
+		"Zod",
 		"React Hook Form",
-		"Zod"
+		"React PDF",
+		"Pineapple",
+		"Strawberry",
+		"Git"
+	],
+	"status": "in-development",
+	"highlights": [
+		"Connects a GitHub account through OAuth to retrieve the candidate's repositories.",
+		"Uses repository-level nova.json files to represent projects as structured, schema-validated data.",
+		"Runs a multi-stage AI workflow to analyze a job description, select and tailor relevant projects, and generate a targeted resume.",
+		"Keeps candidate details, education, experience, links, and project information in a structured PostgreSQL-backed profile.",
+		"Generates an A4 resume preview and PDF from validated resume data."
 	],
 	"features": [
 		{
-			"name": "Github OAuth",
-			"description": "Using Github OAuth to read repos.",
-			"implementation": "Better Auth's OAuth functionality with scope changes",
-			"tech": ["Better Auth", "Postgres", "Drizzle"]
+			"name": "GitHub Integration",
+			"description": "Connect a GitHub account and retrieve the user's repositories for use as resume project sources.",
+			"implementation": "Uses Better Auth's GitHub OAuth integration and the GitHub REST API to access repository data on the server.",
+			"tech": [
+				"Better Auth",
+				"GitHub OAuth",
+				"GitHub REST API",
+				"PostgreSQL",
+				"Drizzle ORM"
+			]
 		},
 		{
-			"name": "AI Powered Tailoring",
-			"description": "Using LLM Models to analyze job description and tailor a resume for it.",
-			"implementation": "OpenRouter API with auto LLM model and a chain of conversations, 3 with stages of analysis, tailoring projects and tailoring resume",
-			"tech": ["OpenRouter SDK"]
+			"name": "Structured Project Metadata",
+			"description": "Represent each repository as a structured project with its description, technologies, features, links, and highlights.",
+			"implementation": "Reads a root-level nova.json from repositories and validates project data against a shared Zod schema.",
+			"tech": ["GitHub REST API", "TypeScript", "Zod"]
+		},
+		{
+			"name": "Job Description Analysis",
+			"description": "Extract the role, requirements, and relevant technical context from a job description before resume generation.",
+			"implementation": "Uses an OpenRouter model to analyze the job description and return structured output validated against a Zod schema.",
+			"tech": ["OpenRouter SDK", "TypeScript", "Zod"]
+		},
+		{
+			"name": "AI Project Tailoring",
+			"description": "Select and adapt the candidate's most relevant projects for a specific vacancy while keeping the content grounded in supplied project information.",
+			"implementation": "Uses a separate LLM stage to rank relevant projects and rewrite their descriptions and highlights for the target role.",
+			"tech": ["OpenRouter SDK", "TypeScript", "Zod"]
+		},
+		{
+			"name": "Structured Resume Generation",
+			"description": "Generate a role-specific resume using the candidate's profile, education, experience, and tailored projects.",
+			"implementation": "Combines stored candidate data with the analyzed job and tailored projects, then validates the generated resume against a Zod schema.",
+			"tech": ["Next.js", "PostgreSQL", "Drizzle ORM", "OpenRouter SDK", "Zod"]
+		},
+		{
+			"name": "Resume PDF Preview",
+			"description": "Preview and export the generated resume in an A4 document layout.",
+			"implementation": "Renders validated resume data as a paginated PDF document with clickable links.",
+			"tech": ["React", "React PDF"]
 		}
-	],
-	"highlights": [
-		"Use of Github OAuth to read user repos",
-		"Authentication throughout app",
-		"Using AI to tailor resumes"
 	],
 	"presentation": {
 		"logo": "https://nova.loremus.gay/logo.svg",
 		"poster": "https://nova.loremus.gay/logo.svg"
 	},
-	"status": "in-development",
-	"urls": {
-		"Website": "https://nova.loremus.gay",
-		"Github": "https://github.com/Loremus299/nova"
-	}
+	"tags": [
+		"Full-Stack Development",
+		"LLM Application Development",
+		"Generative AI",
+		"LLM Orchestration",
+		"Prompt Engineering",
+		"AI Workflow Automation",
+		"Structured AI Generation",
+		"API Integration",
+		"Schema-Driven Development"
+	]
 }
