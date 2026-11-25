@@ -9,6 +9,7 @@ import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { Fragment } from "react/jsx-runtime";
 import z from "zod";
+import ResumePdfClient from "./pdfClient";
 
 export default async function Page({
 	params,
@@ -159,7 +160,9 @@ export default async function Page({
 						</h4>
 					</div>
 				</div>
-				<div className="h-full"></div>
+				<div className="h-full">
+					<ResumePdfClient resume={resume} />
+				</div>
 			</div>
 		</Container>
 	);
