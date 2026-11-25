@@ -7,6 +7,7 @@ import Result from "@loremus299/pineapple";
 import { DrizzleQueryError, eq, and } from "drizzle-orm";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
+import { Fragment } from "react/jsx-runtime";
 import z from "zod";
 
 export default async function Page({
@@ -76,14 +77,87 @@ export default async function Page({
 					<div className="w-full grid gap-1">
 						<h2 className="font-semibold">Skills</h2>
 						<h4 className="text-xs text-muted-foreground">
-							{Object.entries(resume.skills).map((item) => (
-								<div key={item[0]} className="flex">
-									{item[0]} | {item[1].join(", ")}
+							{Object.entries(resume.skills).map((item, index) => (
+								<div key={index} className="flex">
+									<p className="mt-1">
+										<span className="text-foreground">{item[0]}</span> |{" "}
+										{item[1].join(", ")}
+									</p>
 								</div>
 							))}
 						</h4>
 					</div>
 					<div className="w-full h-1 border-t border-foreground" />
+					<div className="w-full grid gap-1">
+						<h2 className="font-semibold">Experience</h2>
+						<h4 className="text-xs text-muted-foreground">
+							{resume.experience.map((item, index) => (
+								<div key={index}>
+									<div className="flex justify-between">
+										<h5 className="text-foreground">{item.company}</h5>
+										<p>{item.duration}</p>
+									</div>
+									<p>{item.role}</p>
+									{item.highlights?.map((item, index) => (
+										<div key={index} className="mt-1">
+											- {item.highlight}
+										</div>
+									))}
+								</div>
+							))}
+						</h4>
+					</div>
+					<div className="w-full h-1 border-t border-foreground" />
+					<div className="w-full grid gap-1">
+						<h2 className="font-semibold">Projects</h2>
+						<h4 className="text-xs text-muted-foreground">
+							{resume.projects.map((item, index) => (
+								<div key={index}>
+									<div className="flex justify-between">
+										<h5 className="text-foreground">{item.name}</h5>
+										<p>
+											{Object.entries(item.urls).map((item, index) => (
+												<Fragment key={index}>
+													{index > 0 && " | "}
+													<a key={index} target="_blank" href={item[1]}>
+														{item[0]}
+													</a>
+												</Fragment>
+											))}
+										</p>
+									</div>
+									<p>{item.description}</p>
+									{item.highlights?.map((item, index) => (
+										<div key={index} className="mt-1">
+											- {item.highlight}
+										</div>
+									))}
+								</div>
+							))}
+						</h4>
+					</div>
+					<div className="w-full h-1 border-t border-foreground" />
+					<div className="w-full grid gap-1">
+						<h2 className="font-semibold">Education</h2>
+						<h4 className="text-xs text-muted-foreground">
+							{resume.education.map((item, index) => (
+								<div key={index}>
+									<div className="flex justify-between">
+										<h5 className="text-foreground">{item.qualification}</h5>
+										<p>{item.duration}</p>
+									</div>
+									<p>
+										{item.institution} ({item.grade})
+									</p>
+									{item.highlights?.map((item, index) => (
+										<div key={index} className="mt-1">
+											- {item.highlight}
+										</div>
+									))}
+								</div>
+							))}
+						</h4>
+					</div>
 				</div>
 				<div className="h-full"></div>
 			</div>
