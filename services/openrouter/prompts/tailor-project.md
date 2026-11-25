@@ -53,7 +53,7 @@ A project with a relevant implementation may be more valuable than a project wit
 
 ## 3. Select and Rank Projects
 
-Select a minimum of 4 and a maximum of 8 projects when sufficient relevant projects are available.
+Select a minimum of 4 and a maximum of 6 projects when sufficient relevant projects are available.
 
 For each candidate project, determine whether it provides meaningful evidence of suitability for the advertised role.
 
