@@ -60,7 +60,7 @@ export default async function Page({
 							{resume.user.urls.map((item, index) => (
 								<span key={index}>
 									|{" "}
-									<a href={item.url} target="" className="underline">
+									<a href={item.url} target="_blank" className="underline">
 										{item.name}
 									</a>{" "}
 								</span>
