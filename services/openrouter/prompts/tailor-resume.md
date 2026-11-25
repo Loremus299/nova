@@ -57,7 +57,7 @@ It MUST:
 - Connect the candidate's demonstrated capabilities to what the company expects from the person filling this position.
 - Use appropriate technical terminology and emphasize relevant areas of expertise.
 - Be written in a professional, objective tone, without first-person language.
-- Remain concise, ideally 2–3 sentences.
+- Remain concise, ideally 1–2 sentences.
 
 **STRICT RESTRICTIONS:**
 
