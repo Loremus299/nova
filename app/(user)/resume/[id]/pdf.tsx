@@ -260,7 +260,7 @@ function ResumeDocument({ resume }: { resume: Resume }) {
 							<Fragment key={`${item.name}-${item.url}`}>
 								{index > 0 && <Text style={styles.separator}>·</Text>}
 								<Link src={item.url} style={styles.link}>
-									{item.name}
+									{item.url.replace(/^https?:\/\//, "")}
 								</Link>
 							</Fragment>
 						))}
