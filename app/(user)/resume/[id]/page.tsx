@@ -120,7 +120,12 @@ export default async function Page({
 											{Object.entries(item.urls).map((item, index) => (
 												<Fragment key={index}>
 													{index > 0 && " | "}
-													<a key={index} target="_blank" href={item[1]}>
+													<a
+														key={index}
+														target="_blank"
+														className="underline"
+														href={item[1]}
+													>
 														{item[0]}
 													</a>
 												</Fragment>
@@ -128,6 +133,7 @@ export default async function Page({
 										</p>
 									</div>
 									<p>{item.description}</p>
+									<p className="mt-2">{item.tech.join(", ")}</p>
 									{item.highlights?.map((item, index) => (
 										<div key={index} className="mt-1">
 											- {item.highlight}
