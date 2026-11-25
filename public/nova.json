@@ -1,119 +1,103 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "type": "object",
-  "properties": {
-    "name": {
-      "type": "string"
-    },
-    "tagline": {
-      "type": "string"
-    },
-    "description": {
-      "type": "object",
-      "properties": {
-        "project": {
-          "type": "string"
-        },
-        "technical": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "project",
-        "technical"
-      ],
-      "additionalProperties": false
-    },
-    "urls": {
-      "type": "object",
-      "propertyNames": {
-        "type": "string"
-      },
-      "additionalProperties": {
-        "type": "string",
-        "format": "uri"
-      }
-    },
-    "tech": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "highlights": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "features": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "implementation": {
-            "type": "string"
-          },
-          "tech": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "required": [
-          "name",
-          "description",
-          "implementation",
-          "tech"
-        ],
-        "additionalProperties": false
-      }
-    },
-    "status": {
-      "type": "string",
-      "enum": [
-        "in-development",
-        "completed",
-        "maintained",
-        "archived"
-      ]
-    },
-    "presentation": {
-      "type": "object",
-      "properties": {
-        "poster": {
-          "type": "string",
-          "format": "uri"
-        },
-        "logo": {
-          "type": "string",
-          "format": "uri"
-        }
-      },
-      "required": [
-        "poster",
-        "logo"
-      ],
-      "additionalProperties": false
-    }
-  },
-  "required": [
-    "name",
-    "tagline",
-    "description",
-    "urls",
-    "tech",
-    "highlights",
-    "features",
-    "status",
-    "presentation"
-  ],
-  "additionalProperties": false
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"type": "object",
+	"properties": {
+		"name": {
+			"type": "string"
+		},
+		"tagline": {
+			"type": "string"
+		},
+		"description": {
+			"type": "object",
+			"properties": {
+				"project": {
+					"type": "string"
+				},
+				"technical": {
+					"type": "string"
+				}
+			},
+			"required": ["project", "technical"],
+			"additionalProperties": false
+		},
+		"urls": {
+			"type": "object",
+			"propertyNames": {
+				"type": "string"
+			},
+			"additionalProperties": {
+				"type": "string",
+				"format": "uri"
+			}
+		},
+		"tech": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			}
+		},
+		"highlights": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			}
+		},
+		"features": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"implementation": {
+						"type": "string"
+					},
+					"tech": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					}
+				},
+				"required": ["name", "description", "implementation", "tech"],
+				"additionalProperties": false
+			}
+		},
+		"status": {
+			"type": "string",
+			"enum": ["in-development", "completed", "maintained", "archived"]
+		},
+		"presentation": {
+			"type": "object",
+			"properties": {
+				"poster": {
+					"type": "string",
+					"format": "uri"
+				},
+				"logo": {
+					"type": "string",
+					"format": "uri"
+				}
+			},
+			"required": ["poster", "logo"],
+			"additionalProperties": false
+		}
+	},
+	"required": [
+		"name",
+		"tagline",
+		"description",
+		"urls",
+		"tech",
+		"highlights",
+		"features",
+		"status",
+		"presentation"
+	],
+	"additionalProperties": true
 }
